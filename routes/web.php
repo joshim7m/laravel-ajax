@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('student', ['as'=>'student.all', 'uses'=>'StudentController@index']);
 Route::post('student', ['as'=>'student.store', 'uses'=>'StudentController@store']);
+Route::get('student/{id}', ['as'=>'student.show', 'uses'=>'StudentController@show']);
 Route::put('student/{id}', ['as'=>'student.update', 'uses'=>'StudentController@update']);
 Route::delete('student/{id}', ['as'=>'student.delete', 'uses'=>'StudentController@destroy']);
 
