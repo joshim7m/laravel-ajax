@@ -28,10 +28,40 @@
         </tr>
       </thead>
          <tbody id="tbody"> 
-         
+         @foreach($tasks as $key=>$task)
+          <tr>
+           <td>{{ $key + 1}}</td> 
+            <td>{{$task->name}}</td>
+            <td>{{$task->description}}</td> 
+            <td>{{($task->done) ? 'Yes' : 'No'}}
+            </td>
+            <td>
+              <a onclick="event.preventDefault();
+                    editTaskForm({{$task->id}});"
+                    href="#" 
+                    class="edit open-modal" 
+                    data-toggle="modal" 
+                    value="{{$task->id}}">Edit
+              </a> 
+
+              <a onclick="event.preventDefault();
+                    deleteTaskForm({{$task->id}});" 
+                    href="#" 
+                    class="delete" 
+                    data-toggle="modal"> Delete
+              </a> 
+           </td>
+         </tr> 
+         @endforeach 
       </tbody>
     </table>
-
+    <div class="clearfix"> 
+      <div class="hint-text">Showing
+          <b>{{$tasks->count()}}</b>
+          out of <b>
+          {{$tasks->total()}}</b> entries
+      </div> {{ $tasks->links() }} 
+    </div>
     <div class="row mt-5 justify-content-center">
       <div class="col-md-8">
         <ul class="task-list">
@@ -66,15 +96,10 @@
           success: function(data){
 
             let tasks = data.tasks;
-            let tbody = $('#tbody');
-            tbody.html('');
+            let taskList = $('.task-list');
+            
             $.each(tasks, function(i, item){
-              let tr = tbody.append('<tr></tr>');
-              tr.append('<td>' + i + '</td>');
-              tr.append('<td>' + item.name + '</td>');
-              tr.append('<td>' + item.description + '</td>');
-              tr.append('<td>' + item.done + '</td>');
-              tr.append("<td> <a href='#' onclick='event.preventDefault(); editTaskForm("+item.id+")' >Edit</a> | <a href='#' onclick='event.preventDefault(); deleteTaskForm("+item.id+")' >Delete</a></td>");
+              taskList.append('<li>' + item.name + '</li>');
             })
           }
          })
@@ -101,7 +126,7 @@
           success: function(data) { 
             $('#frmAddTask').trigger("reset"); 
             $("#frmAddTask .close").click(); 
-            getData();
+            window.location.reload(); 
           }, 
 
           error: function(data) {
@@ -167,7 +192,8 @@
             dataType: 'json', 
              success: function(data) { 
               $("#frmDeleteTask .close").click(); 
-              getData();
+              window.location.
+              reload(); 
              }, 
             error: function(data) {
              console.log(data); 

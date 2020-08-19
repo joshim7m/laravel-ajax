@@ -16,6 +16,14 @@ class TaskController extends Controller
         return view('task.index')->with('tasks',$tasks); 
     }
 
+    public function getData(Request $request){
+
+        $tasks = Task::orderBy('id', 'desc')->get();
+        if($request->ajax()){
+
+            return response()->json(['error'=>false, 'tasks'=> $tasks ], 200);
+        }
+    }
 
     public function create()
     {

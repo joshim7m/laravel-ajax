@@ -13,7 +13,7 @@ Route::put('student/{id}', ['as'=>'student.update', 'uses'=>'StudentController@u
 Route::delete('student/{id}', ['as'=>'student.delete', 'uses'=>'StudentController@destroy']);
 
 Route::resource('task', 'TaskController');
-
+Route::get('ajax/task', ['as'=>'ajax.task', 'uses'=>'TaskController@getData']);
 Route::get('imageupload', ['as'=>'image.form', 'uses'=>'ImageController@showForm']);
 Route::post('imageupload', ['as'=>'image.upload', 'uses'=>'ImageController@upLoad']);
 
